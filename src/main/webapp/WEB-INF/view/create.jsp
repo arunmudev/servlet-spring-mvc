@@ -4,22 +4,20 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Servlet Db project</title>
+<title>Create New Issue</title>
+
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 <link
 	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
 	rel="stylesheet" type="text/css" />
-<link
-	href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
-	rel="stylesheet">
-<script
-	src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"
 	type="text/javascript"></script>
@@ -29,8 +27,7 @@
 
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script src="js/servlet-db.js"></script>
+<script src="js/create-new-issue.js"></script>
 
 <style>
 table {
@@ -48,35 +45,50 @@ td, th {
 tr:nth-child(even) {
 	background-color: #dddddd;
 }
+
+#add-btn{
+   background-color: #1294F7;
+}
 </style>
 </head>
 <body>
-	<div>
+	<div class="container">
 		<h1>
 			Issue Tracker <small>by Servlet jquery</small>
 		</h1>
-		<button class="btn btn-primary" id="add-btn">Add</button>
-		<button class="btn btn-primary" id="edit-btn">Edit</button>
-		<button class="btn btn-primary" id="delete-btn">Delete</button>
-	</div>
-	<div id="anotherSection">
-		<fieldset>
-			<legend>Response from jQuery Ajax Request</legend>
-			<div id="ajaxResponse"></div>
-		</fieldset>
+		<div class="jumbotron">
+			<h3>Add new Issue:</h3>
+			<form id="issue-input-form">
+				<div class="form-group">
+					<label for="id-input">Issue Id</label> <input id="id-input"
+						class="form-control" type="text" />
+				</div>
 
-		<table id="issue_tracker">
-			<tr>
-				<th id="id-align">Issue ID</th>
-				<th>Issue Title</th>
-				<th>Issue Assignee</th>
-				<th>Issue Priority</th>
-			</tr>
-		</table>
-		<div id="row-count"></div>
-	</div>
-	</div>
+				<div class="form-group">
+					<label for="title-input">Issue Title</label> <input
+						id="issue-input" class="form-control" type="text" />
+				</div>
 
+				<div class="form-group">
+					<label for="author-input">Assignee</label> <input
+						id="assignee-input" class="form-control" type="text" />
+				</div>
+
+				<div class="form-group">
+					<label for="price-input">Priority</label> <select
+						id="priority-input">
+						<option value="Low">Low</option>
+						<option value="Medium">Medium</option>
+						<option value="High">High</option>
+					</select>
+				</div>
+			</form>
+		</div>
+			<button class="btn btn-primary" id="exit-btn">Exit</button>
+			<button class="btn btn-primary" id="save-btn">Save</button>
+	</div>
+    <div id="error-dialog">
+    </div>
 	<script src="http://chancejs.com/chance.min.js"></script>
 	<script src="http://code.jquery.com/jquery-3.3.1.min.js"
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

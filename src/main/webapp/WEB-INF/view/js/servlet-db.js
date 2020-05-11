@@ -1,16 +1,18 @@
 'use strict';
 
+
 $(document).ready(function(){
 
-	$("#book-input-form").submit(function(e){
+	$("#issue-input-form").submit(function(e){
 		e.preventDefault();
 	});	
-
-	loadData();
-	insertData();
-	updateData();
+	getAllData();
+	createNewIssue();
+	selectGridRow();
+	updateExistingIssue();
 	deleteData();
 });
+
 /**
  * getAll Data from db
  */
@@ -27,86 +29,64 @@ function getAllData(){
 		var rowCount = obj.length;
 		rowCountDive.innerHTML = rowCount + " rows";
 		for(var i=0;i<obj.length;i++){				
-			table += "<tr>" +
+			table += "<tr class='selected'>" +
 			"<td>" +obj[i].issueId +"</td>"+
 			"<td>" +obj[i].issueTitle +"</td>"+
 			"<td>" +obj[i].assignee +"</td>"+
 			"<td>" +obj[i].priority +"</td>"+
 			"</tr>";
 			document.getElementById("issue_tracker").innerHTML = table;	
-		}
-		$("#view-btn").attr("disabled",true);	
-
-		$("tr").dblclick(function(e){
-			var currentRow = $(this).closest("tr");
-			var issueId = currentRow.find("td:eq(0)").text();
-			var issueTitle = currentRow.find("td:eq(1)").text();
-			var assignee = currentRow.find("td:eq(2)").text();
-			var priority = currentRow.find("td:eq(3)").text();
-			//alert(issueId+"\n"+issueTitle+"\n"+assignee+"\n"+priority);
-			$("#id-input").val(issueId).attr("disabled",true);
-			$("#issue-input").val(issueTitle);
-			$("#assignee-input").val(assignee);
-			$("#priority-input").val(priority);
-		});
+		}	
+		selectGridRow();
+		updateExistingIssue();
 	});
 }
 
 /**
- * Load records from db
+ * create new issue
+ * 
  */
-function loadData(){
-	$("#load-btn").click(function(e){
-		getAllData();
-	})
-}
-
-/**
- * Insert record in db
- */
-function insertData(){
+function createNewIssue(){
 	$("#add-btn").click(function(e){
-		var url="ServletDbController";	
-		var id=$("#id-input").val();
-		var issue = $("#issue-input").val();
-		var assignee = $("#assignee-input").val();
-		var priority = $("#priority-input").val();
-		var query = "insert";
-		var param = {
-				idInput : id,
-				issueInput : issue,
-				assigneeInput : assignee,
-				priorityInput : priority,
-				operationType : query
-		};
-		$.post(url,param,function(){
-			getAllData();
-		}
-		);
+		window.location.href="/servlet-spring-mvc/create";
+		$("#id-input").focus();
 	});
 }
 
 /**
- * update record in db
+ * selectGridRow function
  */
-function updateData() {
-	$("#upd-btn").click(function(e){
-		var url = "ServletDbController";
-		var id=$("#id-input").val();
-		var issue = $("#issue-input").val();
-		var assignee = $("#assignee-input").val();
-		var priority = $("#priority-input").val();
-		var query = "update";
-		var param = {
-				idInput : id,
-				issueInput : issue,
-				assigneeInput : assignee,
-				priorityInput : priority,
-				operationType : query
-		};
-		$.post(url,param,function(){
-			getAllData();
-			$("#id-input").val('').attr("disabled",false);
+function selectGridRow(){	
+	$("tr").click(function(e){
+		$('.selected').removeClass('selected');
+		$(this).find('td').addClass('selected');
+		var issueId=$(this).find('td')[0].textContent;
+		$(this).css("background-color","#205dac");
+		updateExistingIssue(issueId);
+		deleteData(issueId);
+	});
+}
+
+/**
+ * update Existing issue
+ * 
+ */
+function updateExistingIssue(issueId){
+	$("#edit-btn").click(function(e){
+		if(issueId!=null){
+			$.get("update",issueId,function(){
+				window.location.href="/servlet-spring-mvc/update?issueId="+issueId;
+			});
+		}
+	});
+
+	$("tr").dblclick(function(e){
+		var deferred = new $.Deferred();
+		var currentRow = $(this).closest("tr");
+		var issueId = currentRow.find("td:eq(0)").text();
+		$.get("update",issueId,function(){
+			window.location.href="/servlet-spring-mvc/update?issueId="+issueId;
+			deferred.resolve();
 		});
 	});
 }
@@ -115,19 +95,17 @@ function updateData() {
  * delete record from DB
  * 
  */
-function deleteData(){
-	$("#del-btn").click(function(e){
-		var url = "ServletDbController";
-		var id = $("#id-input").val();
-		var query = "delete";
+function deleteData(issueId){
+	$("#delete-btn").click(function(e){
+		var url = "delete";
 		var param = {
-				idInput : id,
-				operationType : query
+				idInput : issueId
 		};
-		$.post(url,param,function(){
+		if(param["idInput"]!=null){
+		$.post(url,param,function(response){
+			//alert('Delete success');
 			getAllData();
-			$("#id-input").val('').attr("disabled",false);
 		});
-
-	})
+		}
+	});
 }

@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.company.model.ServletDbModel;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -21,10 +20,7 @@ public class ServletDbDaoImpl implements ServletDbDao {
 	private String url;
 	private String user;
 	private String password;
-	private Connection connection;   
-	public ServletDbDaoImpl() {
-		
-	}
+	private Connection connection;
 
 	protected void connect()throws SQLException {
 		if(connection == null || connection.isClosed()) {
@@ -35,11 +31,11 @@ public class ServletDbDaoImpl implements ServletDbDao {
 				throw new SQLException(e);
 			}
 			@SuppressWarnings("deprecation")
-			   XmlBeanFactory xml = new XmlBeanFactory(new ClassPathResource("spring-context.xml"));
-			   DriverManagerDataSource datasource = (DriverManagerDataSource) xml.getBean("dataSource");
-			   this.url = datasource.getUrl();
-			   this.user = datasource.getUsername();
-			   this.password = datasource.getPassword();
+			XmlBeanFactory xml = new XmlBeanFactory(new ClassPathResource("spring-context.xml"));
+			DriverManagerDataSource datasource = (DriverManagerDataSource) xml.getBean("dataSource");
+			this.url = datasource.getUrl();
+			this.user = datasource.getUsername();
+			this.password = datasource.getPassword();
 			connection = DriverManager.getConnection(url, user, password);
 		}
 	}
@@ -47,9 +43,11 @@ public class ServletDbDaoImpl implements ServletDbDao {
 	/**
 	 * Insert
 	 */
-	public void insert(ServletDbModel model)throws SQLException {
+	public List<ServletDbModel> insert(ServletDbModel model)throws SQLException {
 		connect();	 	
 		PreparedStatement statement = null;
+		boolean status = false;
+		List<ServletDbModel> list = new ArrayList<>();
 		try {
 
 			String sql = "INSERT INTO issue_tracker(issue_id,issue_title,assignee,priority) VALUES(?,?,?,?);"; 		      
@@ -58,26 +56,32 @@ public class ServletDbDaoImpl implements ServletDbDao {
 			statement.setString(2, model.getIssueTitle());
 			statement.setString(3, model.getAssignee());
 			statement.setString(4, model.getPriority());
-			statement.executeUpdate();
+			status = statement.executeUpdate() > 0;
+			ServletDbModel model1  = new ServletDbModel(status);
+			list.add(model1);
 			System.out.println("insert success");
 		}catch (SQLException e) {
-
+			String errorMessage = e.getMessage().split("\n")[1];
+			ServletDbModel model1  = new ServletDbModel(errorMessage);
+			list.add(model1);
 		}finally {
 			try {
 				if(connection!=null) {
 					connection.close();
 				}
 			}catch (Exception e) {
-				
+
 			}
 			try {
 				if(statement!=null) {
 					statement.close();
 				}
 			}catch (Exception e) {
-				
+
 			}
 		}
+
+		return list;
 	}
 
 	/**
@@ -97,7 +101,7 @@ public class ServletDbDaoImpl implements ServletDbDao {
 				String assignee = resultSet.getString("assignee");
 				String priority = resultSet.getString("priority");
 				ServletDbModel model = new ServletDbModel(issueId, issueTitle, assignee, priority);
-				listModel.add(model );                
+				listModel.add(model);                
 			}
 			System.out.println("fetch success");
 		}catch (SQLException e) {
@@ -124,8 +128,8 @@ public class ServletDbDaoImpl implements ServletDbDao {
 	/**
 	 * Fetch particular data
 	 */	
-	public String title(Integer issueIdOne) throws SQLException {
-		String title = null;
+	public List<ServletDbModel> issueDetails(Integer issueIdOne) throws SQLException {
+		List<ServletDbModel> issueDetails = new ArrayList<>();
 		connect();	 	
 		PreparedStatement statement = null;
 		try {
@@ -138,7 +142,8 @@ public class ServletDbDaoImpl implements ServletDbDao {
 				String issueTitle = resultSet.getString("issue_title");
 				String assignee = resultSet.getString("assignee");
 				String priority = resultSet.getString("priority");
-				title = resultSet.getString("issue_title");           
+				ServletDbModel model = new ServletDbModel(issueId, issueTitle, assignee, priority);
+				issueDetails.add(model);
 			}
 			System.out.println("fetch success");
 		}catch (SQLException e) {
@@ -159,16 +164,17 @@ public class ServletDbDaoImpl implements ServletDbDao {
 				// TODO: handle exception
 			}
 		}
-		return title;
+		return issueDetails;
 	}	
-	
+
 	/**
 	 * update particular data
 	 */	
-	public void update(ServletDbModel model) throws SQLException {
-		
+	public boolean update(ServletDbModel model) throws SQLException {
+
 		connect();	 	
 		PreparedStatement statement = null;
+		boolean status = false;
 		try {
 			String sql = "UPDATE issue_tracker SET issue_title=?,assignee=?,priority=? where issue_id=?;";	
 			statement = connection.prepareStatement(sql);
@@ -176,7 +182,7 @@ public class ServletDbDaoImpl implements ServletDbDao {
 			statement.setString(2, model.getAssignee());
 			statement.setString(3, model.getPriority());
 			statement.setInt(4, model.getIssueId());
-			statement.executeUpdate();
+			status = statement.executeUpdate() > 0;
 			System.out.println("update success");
 		}catch (SQLException e) {
 
@@ -196,22 +202,25 @@ public class ServletDbDaoImpl implements ServletDbDao {
 				// TODO: handle exception
 			}
 		}
-		
+
+		return status;
 	}
 
 	/**
 	 * Delete particular data from db
 	 * @param issueId
+	 * @return 
 	 * @throws SQLException 
 	 */
-	public void delete(Integer issueId) throws SQLException {
+	public boolean delete(Integer issueId) throws SQLException {
 		connect();	 	
 		PreparedStatement statement = null;
+		boolean status=false;
 		try {
 			String sql = "DELETE FROM issue_tracker where issue_id=?;";
 			statement = connection.prepareStatement(sql);
 			statement.setInt(1, issueId);
-			statement.executeUpdate();
+			status = statement.executeUpdate() > 0;
 			System.out.println("delete success");
 		}catch (SQLException e) {
 
@@ -232,5 +241,7 @@ public class ServletDbDaoImpl implements ServletDbDao {
 			}
 		}
 		
-	}	
+		return status;
+
+	}
 }

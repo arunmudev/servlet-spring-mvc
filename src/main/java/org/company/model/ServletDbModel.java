@@ -6,6 +6,8 @@ public class ServletDbModel {
 	private String issueTitle;
 	private String assignee;
 	private String priority;
+	private boolean status;
+	private String errorMessage;
 
 	/**
 	 * Constructor
@@ -18,26 +20,34 @@ public class ServletDbModel {
 		this.priority=priority;
 	}
 
+	public ServletDbModel(boolean status) {
+		this.status = status;
+	}
+
+	public ServletDbModel(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
 	public void setIssueId(Integer issueId){
 		this.issueId = issueId;
 	}
-	
+
 	public Integer getIssueId(){
 		return issueId;
 	}
-	
+
 	public void setIssueTitle(String issueTitle){
 		this.issueTitle = issueTitle;
 	}
-	
+
 	public String getIssueTitle(){
 		return issueTitle;
 	}
-	
+
 	public void setAssignee(String assignee) {
 		this.assignee = assignee;
 	}
-	
+
 	public String getAssignee() {
 		return assignee;
 	}
@@ -45,7 +55,7 @@ public class ServletDbModel {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
-	
+
 	public String getPriority() {
 		return priority;
 	}
