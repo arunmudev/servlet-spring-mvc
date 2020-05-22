@@ -12,7 +12,7 @@ public interface ServletDbService {
 
 	public boolean update(ServletDbModel model) throws SQLException;
 
-	public boolean delete(Integer issueId) throws SQLException;
+	public boolean delete(ServletDbModel model) throws SQLException;
 
 	public List<ServletDbModel> issueDetails(Integer issueIdOne) throws SQLException;
 }

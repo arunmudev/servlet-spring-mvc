@@ -23,13 +23,11 @@ function insertData(){
 		var issue = $("#issue-input").val();
 		var assignee = $("#assignee-input").val();
 		var priority = $("#priority-input").val();
-		var query = "insert";
 		var param = {
-				idInput : id2,
-				issueInput : issue,
-				assigneeInput : assignee,
-				priorityInput : priority,
-				operationType : query
+				issueId : id2,
+				issueTitle : issue,
+				assignee : assignee,
+				priority : priority		 		
 		};
 		$.post(url,param,function(response){
 			if(JSON.parse(response)[0].status==true) {

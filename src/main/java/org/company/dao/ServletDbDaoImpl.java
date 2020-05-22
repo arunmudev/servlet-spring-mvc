@@ -212,16 +212,15 @@ public class ServletDbDaoImpl implements ServletDbDao {
 	 * @return 
 	 * @throws SQLException 
 	 */
-	public boolean delete(Integer issueId) throws SQLException {
+	public boolean delete(ServletDbModel model) throws SQLException {
 		connect();	 	
 		PreparedStatement statement = null;
 		boolean status=false;
 		try {
 			String sql = "DELETE FROM issue_tracker where issue_id=?;";
 			statement = connection.prepareStatement(sql);
-			statement.setInt(1, issueId);
+			statement.setInt(1, model.getIssueId());
 			status = statement.executeUpdate() > 0;
-			System.out.println("delete success");
 		}catch (SQLException e) {
 
 		}finally {

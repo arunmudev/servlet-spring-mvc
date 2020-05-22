@@ -31,6 +31,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script src="js/servlet-db.js"></script>
+<script src="js/closure-library/closure/goog/base.js"></script>
+
 
 <style>
 table {
@@ -75,8 +77,11 @@ tr:nth-child(even) {
 		</table>
 		<div id="row-count"></div>
 	</div>
-	</div>
-
+	<!-- <div class="alert alert-success">Well done! You successfully deleted this Issue Info
+	</div> -->
+	<button type="float" class="btn btn-primary bmd-btn-fab">
+           <i class="material-icons">add</i>
+     </button>
 	<script src="http://chancejs.com/chance.min.js"></script>
 	<script src="http://code.jquery.com/jquery-3.3.1.min.js"
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -85,5 +90,6 @@ tr:nth-child(even) {
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 		crossorigin="anonymous"></script>
+		<script src="js/closure-library/main.js"></script>
 </body>
 </html>

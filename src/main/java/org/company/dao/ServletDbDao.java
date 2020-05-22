@@ -15,7 +15,7 @@ public interface ServletDbDao {
 
 	public boolean update(ServletDbModel model) throws SQLException;
 
-	public boolean delete(Integer issueId) throws SQLException;
+	public boolean delete(ServletDbModel model) throws SQLException;
 
 	/**
 	 * Fetch particular data

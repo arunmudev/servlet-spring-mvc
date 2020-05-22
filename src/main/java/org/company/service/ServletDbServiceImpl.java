@@ -29,11 +29,8 @@ public class ServletDbServiceImpl implements ServletDbService {
 	}
 
 	@Override
-	public boolean delete(Integer issueId) throws SQLException {
-		System.out.println("Delete service call");
-		
-		return servletDbDao.delete(issueId);
-
+	public boolean delete(ServletDbModel model) throws SQLException {
+		return servletDbDao.delete(model);
 	}
 
 	@Override

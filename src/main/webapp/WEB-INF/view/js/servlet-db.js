@@ -96,6 +96,9 @@ function updateExistingIssue(issueId){
  * 
  */
 function deleteData(issueId){
+	
+	var deferred = $.Deferred();
+	$.Deferred().resolve().then(function(){
 	$("#delete-btn").click(function(e){
 		var url = "delete";
 		var param = {
@@ -103,9 +106,18 @@ function deleteData(issueId){
 		};
 		if(param["idInput"]!=null){
 		$.post(url,param,function(response){
-			//alert('Delete success');
+			if(!JSON.parse(response)==false){
+			$(".alert").alert();
+			}
 			getAllData();
 		});
 		}
 	});
+}).then(function(response){
+   //  console.log(response);    
+     deferred.resolve();
+}).fail(function(){
+        
+    deferred.reject();
+});
 }
