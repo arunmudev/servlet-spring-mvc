@@ -22,7 +22,7 @@ import com.google.gson.GsonBuilder;
 /**
  * Servlet implementation class ServletDbController
  */
-@CrossOrigin(origins= {"http://localhost:3000","http://192.168.111.12:3000","http://192.168.111.11:8080"})
+@CrossOrigin(origins= {"http://localhost:3000","http://192.168.111.12:3000","http://192.168.111.11:3000"})
 @Controller
 public class ServletDbController{
 	
