@@ -2,8 +2,6 @@ package org.company.model;
 
 import java.time.LocalDateTime;
 
-import org.junit.jupiter.api.Test;
-
 public class ServletDbModel {
 
 	private Integer issueId;

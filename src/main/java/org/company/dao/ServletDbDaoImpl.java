@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.company.model.ServletDbModel;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -256,8 +255,8 @@ public class ServletDbDaoImpl implements ServletDbDao {
 
 	}
 	
-	@Test
-	public void main() throws NumberFormatException, IOException {
+//	@Test
+//public void main() throws NumberFormatException, IOException {
 	//	List<String> list = new ArrayList<>();
 	//	ServletDbModel model = new ServletDbModel();
 	//	list.add("one");
@@ -274,32 +273,32 @@ public class ServletDbDaoImpl implements ServletDbDao {
 //       for(i=1;i<10;i++) {
 //    	   System.out.println(ar[i]);
 //       }
-		DataInputStream din = new DataInputStream(System.in);
+	// 	DataInputStream din = new DataInputStream(System.in);
 		
-		int number = Integer.parseInt(din.readLine());
-		factorial(number);
-		String string = "arun studied";
-		stringReverse(string);
+	// 	int number = Integer.parseInt(din.readLine());
+	// 	factorial(number);
+	// 	String string = "arun studied";
+	// 	stringReverse(string);
 		
-	}
+	// }
 
-	private void factorial(int number) {
-		int fact = 1;
-		for(int i=1;i<=number;i++) {
+	// private void factorial(int number) {
+	// 	int fact = 1;
+	// 	for(int i=1;i<=number;i++) {
 			 
-		   fact	= i*fact;
-		}
-		System.out.print(fact);
+	// 	   fact	= i*fact;
+	// 	}
+	// 	System.out.print(fact);
 		
-	}
+	// }
 	
-	private void stringReverse(String string) {
-		char[] ar= string.toCharArray();
-		int i;
-		for(i=string.length()-1;i>=0;i--) {
-			System.out.print(ar[i]);
-		}
-	}
+	// private void stringReverse(String string) {
+	// 	char[] ar= string.toCharArray();
+	// 	int i;
+	// 	for(i=string.length()-1;i>=0;i--) {
+	// 		System.out.print(ar[i]);
+	// 	}
+	// }
 }
 
 
