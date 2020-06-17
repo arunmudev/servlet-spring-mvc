@@ -20,6 +20,6 @@ public interface ServletDbDao {
 	/**
 	 * Fetch particular data
 	 */	
-	public List<ServletDbModel> issueDetails(Integer issueIdOne) throws SQLException;
+	public List<ServletDbModel> issueDetails(ServletDbModel model) throws SQLException;
 
 }

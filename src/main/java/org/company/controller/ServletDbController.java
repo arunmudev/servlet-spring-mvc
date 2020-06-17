@@ -22,7 +22,7 @@ import com.google.gson.GsonBuilder;
 /**
  * Servlet implementation class ServletDbController
  */
-@CrossOrigin(origins= {"http://localhost:3000","http://192.168.111.12:3000","http://192.168.111.11:3000"})
+@CrossOrigin(origins= {"http://localhost:3000","http://192.168.137.1:3000","http://192.168.111.11:3000"})
 @Controller
 public class ServletDbController{
 	
@@ -94,17 +94,23 @@ public class ServletDbController{
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@RequestMapping(value="/fetchData",method=RequestMethod.GET)
+	@RequestMapping(value="/fetchData",method=RequestMethod.POST)
 	protected void fetchData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {			
 			response.setContentType("text/plain");
-			System.out.println("fetch Data");
-			String issueIn = request.getParameter("idInput");
-			Integer issueIdOne =  Integer.parseInt(issueIn);
-			List<ServletDbModel> list = servletDbService.issueDetails(issueIdOne);
+			StringBuffer buffer = new StringBuffer();
+			BufferedReader reader = request.getReader();
+			String Line = null;
+			while((Line = reader.readLine())!=null) {
+				buffer.append(Line);
+			}
+			String check = buffer.toString();
+			Gson json = new GsonBuilder().create();
+			ServletDbModel model = json.fromJson(check, ServletDbModel.class);
+			List<ServletDbModel> list = servletDbService.issueDetails(model);
 			Gson gson = new Gson();
-			String json = gson.toJson(list);			
-			response.getWriter().write(json); 		     
+			String json1 = gson.toJson(list);			
+			response.getWriter().write(json1); 		     
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}

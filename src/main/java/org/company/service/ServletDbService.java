@@ -14,5 +14,5 @@ public interface ServletDbService {
 
 	public boolean delete(ServletDbModel model) throws SQLException;
 
-	public List<ServletDbModel> issueDetails(Integer issueIdOne) throws SQLException;
+	public List<ServletDbModel> issueDetails(ServletDbModel model) throws SQLException;
 }

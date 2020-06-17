@@ -39,17 +39,15 @@
 
 	<mvc:resources mapping="/js/**"
 		location="/WEB-INF/view/js/" />
-	<mvc:resources mapping="/js/**"
-		location="/WEB-INF/node_modules/google-closure-library/closure/goog/" />
 		
 <!-- 	<mvc:resources mapping="/js/**"
 		location="node_modules/google-closure-library/closure/goog/" />	
  -->
-	<context:property-placeholder
-		location="classpath:database.properties" file-encoding="UTF-8" />
+	<!-- <context:property-placeholder
+		location="classpath:database.properties" file-encoding="UTF-8" /> -->
 
-	<!-- <bean id="databaseProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
-		<property name="location" value="classpath:database.properties"/> </bean> -->
+	<bean id="databaseProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+		<property name="location" value="classpath:database.properties"/> </bean>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">

@@ -1,7 +1,12 @@
 package org.company.service;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.company.dao.ServletDbDao;
 import org.company.model.ServletDbModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +25,19 @@ public class ServletDbServiceImpl implements ServletDbService {
 
 	@Override
 	public List<ServletDbModel> insert(ServletDbModel model)throws SQLException {
-		return servletDbDao.insert(model);
+		 
+		List<ServletDbModel> listModel = servletDbDao.listIssues();
+	//	listModel.listIterator(index);
+		Integer issueId;
+		//model.setIssueId(issueId);
+		List<ServletDbModel> dbmodel = servletDbDao.insert(model);
+		//return servletDbDao.insert(model);
+		Map<String ,  List<ServletDbModel>> filterMap = new HashMap<String,  List<ServletDbModel>>();
+//		Map<String,String> map = dbmodel.stream().collect(Collectors.toMap(
+//				ServletDbModel::is))
+		//System.out.println(dbmodel);
+		//dbmodel.stream().filter(e -> e.contains(true));
+		return dbmodel;
 	}
 
 	@Override
@@ -34,7 +51,7 @@ public class ServletDbServiceImpl implements ServletDbService {
 	}
 
 	@Override
-	public List<ServletDbModel> issueDetails(Integer issueIdOne) throws SQLException {
-		return servletDbDao.issueDetails(issueIdOne);
+	public List<ServletDbModel> issueDetails(ServletDbModel model) throws SQLException {
+		return servletDbDao.issueDetails(model);
 	}
 }
